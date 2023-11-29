@@ -1,0 +1,91 @@
+package testesantivirus;
+
+// TODO Auto-generated method stub
+import java.io.File;
+import java.util.Scanner;
+
+
+public class main {
+
+    public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+    	
+        String nomedoArquivo = "execucao-aula.exe"; // arquivo a ser procurado - execucao-aula.exe
+        String nomedoArquivo2 = "execucao-aula-teste.exe"; // 2º arquivo a ser procurado - execucao-aula-teste.exe
+        String nomedoArquivo3 = "script-aula.bat"; // 3º arquivo a ser procurado - script-aula.bat
+        String nomedoArquivo4 = "script-aula-teste.bat"; // 4º arquivo a ser procurado - script-aula-teste.bat
+        File diretorio = new File(System.getProperty("user.home")); // diretorio base do windows (onde começar a procurar)
+        int opc = 0; // opção de escanear
+        
+        System.out.println("______________________________________________________\n    Bem vindo ao escaner de vírus 2000 ultra V3!\n______________________________________________________\n     		  Atualizado 2023\n\n");
+        
+        do{
+        System.out.println("Deseja iniciar uma veríficação de arquivos?\n digite 1 para sim e 2 para não."); // opção de escanear
+        opc = sc.nextInt(); 
+        } while (opc <1 || opc >2); // evitar erros em relação ao usuário
+        
+        if (opc == 1) {
+        System.out.println("\n Escaneando... \n"); // iniciando scam
+
+        if (escanearVirus(diretorio, nomedoArquivo)) {
+            System.out.println("Tome as devidas providências!"); // caso encontre
+        } else {
+            System.out.println("O arquivo suspeito execucao-aula.exe não foi encontrado."); // caso não encontre
+        } // procurando execucao-aula.exe
+        
+        		System.out.println("\n Escaneando... \n"); // pausa
+        		
+        if (escanearVirus(diretorio, nomedoArquivo2)) {
+            System.out.println("Tome as devidas providências!"); // caso encontre
+        } else {
+            System.out.println("O arquivo suspeito execucao-aula-teste.exe não foi encontrado."); // caso não encontre
+        } // procurando execucao-aula-teste.exe
+        
+        		System.out.println("\n Escaneando... \n"); // pausa
+        		
+        if (escanearVirus(diretorio, nomedoArquivo3)) {
+            System.out.println("Tome as devidas providências!"); // caso encontre
+        } else {
+            System.out.println("O arquivo suspeito script-aula.bat não foi encontrado."); // caso não encontre
+        } // procurando script-aula.bat
+        
+		System.out.println("\n Escaneando... \n"); // pausa
+		
+        if (escanearVirus(diretorio, nomedoArquivo4)) {
+            System.out.println("Tome as devidas providências!"); // caso encontre
+        } else {
+            System.out.println("O arquivo suspeito script-aula-teste.bat não foi encontrado."); // caso não encontre
+        } // procurando script-aula-teste.bat
+        
+        System.out.println("\n Fim do escaneamento. \n\n Muito obrigado pela preferência!");// fim do scam
+        }
+    }
+
+    private static boolean escanearVirus(File diretorio, String nomedoArquivo) { // escanner de vírus
+    	
+        if (diretorio.isDirectory()) { // verifica se local é correto
+            File[] caminho = diretorio.listFiles(); // array do diretório
+            
+            if (caminho != null) { // verifica se o caminhho é valido, se há permissão 
+            	for (File procurarArquivo : caminho) { // altera o diretório
+                	
+            		if (procurarArquivo.isDirectory()) { //verifica se é um diretório antes de escanear
+                    	
+            if (escanearVirus(procurarArquivo, nomedoArquivo)) {
+                        	
+            return true; // caso encontre o arquivo, a busca é encerrada
+                        }
+                    } else if (procurarArquivo.getName().equals(nomedoArquivo)) { // verifica o nome
+                    	
+                    	String caminhoArquivo = procurarArquivo.getAbsolutePath(); // caminho para o arquivo
+                    	System.out.println("O arquivo suspeito "+ nomedoArquivo +" foi encontrado!\n"); // notifica que foi encontrado o arquivo
+                        System.out.println("Caminho do arquivo: " + caminhoArquivo +"\n"); // imprime o caminho para o arquivo
+                        
+                        return true;  // arquivo encontrado
+                    }
+                }
+            }
+        }
+        return false;
+    } // escaner de virus fim
+}
